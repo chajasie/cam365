@@ -24,7 +24,7 @@ class SongsController extends Controller {
     }
     public function edit(Songs $song){
         return view('songs.edit', compact('song'));
-    }
+    }200
 
     /**
      * @param $song
