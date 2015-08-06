@@ -1,0 +1,257 @@
+$(document).ready(function() {
+	
+	var allImages = 0;
+    
+    /*    Marco     */
+    var imageBuffer;
+	
+    
+	$('#no-pictures').hide();
+	getTodaysPictures();
+	
+	function getTodaysPictures(){
+		var date = new Date();
+		var month = date.getUTCMonth()+1;
+		month = month < 10 ? "0"+month : month;
+		var day = date.getUTCDate();
+		day = day < 10 ? "0"+day : day;
+		var year = date.getUTCFullYear();
+		var response = $.ajax({
+			url : "getPictures.php",
+			dataType : "json",
+			data : {
+				from : day+"/"+month+"/"+year,
+				to : day+"/"+month+"/"+year
+			}, success : function(data) {
+                /*    Marco     */
+                if(data.length > 0){
+                    imageBuffer = new Array();
+                    Galleria.get(0).load();
+                    
+                    for(var x = 0; x < data.length; x++){
+                        imageBuffer.push(data[x]);
+                    }
+                    lazyLoadImages(50);
+                    $('#galleria').show();	
+				}
+                else{
+					$('#no-pictures').show();
+					$('#galleria').hide();
+				}
+			}
+		});
+	}
+    
+    
+    //Loads numberOfImages from amageBuffer to Galleria
+    function lazyLoadImages(numberOfImages){
+        numberOfImages = Math.min(numberOfImages, imageBuffer.length);
+        for(var x = 0; x < numberOfImages; x ++){
+            console.log('Push ' + x);
+            Galleria.get(0).push(imageBuffer[x]);
+        }
+        imageBuffer.splice(0,numberOfImages);
+    }
+    
+	var running = false;
+	Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
+	Galleria.configure({
+		transition : 'none'
+	});
+
+	Galleria.run('#galleria', {
+		extend : function(options) {
+			var gallery = this;
+			// "this" is the gallery instance
+			this.bind(Galleria.IMAGE, function(e) {
+				var current = gallery.getData();
+				var sourceText;
+				if ( typeof current.original === 'undefined') {
+					sourceText = current.image;
+				} else {
+					var currImg = current.original;
+					sourceText = $(currImg).attr('src');
+				}
+				var match  = sourceText.match(/.{7}(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).+/);
+				var year   = match[1];
+				var month  = match[2];
+				var day    = match[3];
+				var hour   = match[4];
+				var minute = match[5];
+
+				$('#timestamp').text(day + "." + month + "." + year + " - " + hour + ":" + minute);
+			});
+		}
+	});
+
+	Galleria.ready(function() {
+		var gallery = Galleria.get(0);
+		// galleria is ready and the gallery is assigned
+		
+		this.addElement('exit').appendChild('container', 'exit');
+
+		var btn = this.$('exit').hide().text('close').click(function(e) {
+			gallery.exitFullscreen();
+		});
+
+		this.bind('fullscreen_enter', function() {
+			btn.show();
+		});
+
+		this.bind('fullscreen_exit', function() {
+			btn.hide();
+		});
+        
+        this.bind('loadfinish', function(){
+            console.log('asdf');
+            lazyLoadImages(5);
+        });
+
+		$('#fullscreen').click(function() {
+			gallery.toggleFullscreen();
+			// toggles the fullscreen
+		});
+		
+        $('.galleria-thumb-nav-right').click(function() {
+			//Die nächsten 20 Bilder laden
+            console.log('asdf');
+            /*
+			imageSplits = allImages.slice(0,40);
+			Galleria.get(0).load(imageSplits);
+			Galleria.configure({
+				show:19
+			});
+            */
+		});
+		
+		//gallery.lazyLoadChunks( 10 );
+	});
+
+
+
+
+	$('#galleria').show();
+	
+	//Speed Dropdown
+	var speed = 100;
+	var rest  = 0;
+	var imageSplits;
+	
+	$("#speed_slow").click(function() {
+		speed = 1000;
+		Galleria.get(0).setPlaytime(1000);
+		$("#speed").html("Slow <span class='caret'></span>");
+	});
+	
+	$("#speed_medium").click(function() {
+		speed = 500;
+		Galleria.get(0).setPlaytime(500);
+		$("#speed").html("Medium <span class='caret'></span>");
+	});
+	
+	$("#speed_fast").click(function() {
+		speed = 100;
+		Galleria.get(0).setPlaytime(100);
+		$("#speed").html("Fast <span class='caret'></span>");
+	});
+
+	//Next Button
+	$("#next").click(function() {
+		Galleria.get(0).next();
+	});
+
+	$('#searchTimeSpan').click(function() {
+		var response = $.ajax({
+			url : "getPictures.php",
+			dataType : "json",
+			data : {
+				from : $("#from").val(),
+				to : $("#to").val()
+			},success : function(data) {
+				if(data.length > 0){
+					imageBuffer = new Array();
+                    Galleria.get(0).load();
+                    for(var x = 0; x < data.length; x++){
+                        imageBuffer.push(data[x]);
+                    }
+                    lazyLoadImages(50);
+                    
+					$('#galleria').show();	
+					$('#no-pictures').hide();
+				}
+				else{
+					$('#no-pictures').show();
+					$('#galleria').hide();	
+                    
+				}
+			}
+		});
+	});
+
+	//Prev Button
+	$("#prev").click(function() {
+		Galleria.get(0).prev();
+	});
+
+
+	$('#slideshow').click(function() {
+		if (!running) {
+			Galleria.get(0).play(speed);
+			$('#slideshow').text("Pause");
+			running = true;
+		} else {
+			Galleria.get(0).pause();
+			$('#slideshow').text("Play");
+			running = false;
+		}
+	});
+
+	document.onkeyup = KeyCheck;
+	function KeyCheck(e) {
+		if (!window.screenTop && !window.screenY) {
+			//Browser is in Fullscreen
+		} else {
+			var KeyID = (window.event) ? event.keyCode : e.keyCode;
+			switch(KeyID) {
+				case 37:
+					//press left arrow
+					Galleria.get(0).prev();
+					break;
+				case 39:
+					//press right arrow
+					Galleria.get(0).next();
+					break;
+			}
+		}
+	}
+
+	$("#from").datepicker({
+		dateFormat : "dd/mm/yy",
+		defaultDate : "-1m",
+		changeMonth : true,
+		numberOfMonths : 3,
+		onClose : function(selectedDate) {
+			$("#to").datepicker("option", "minDate", selectedDate);
+			console.log($('#to').datepicker('getDate'));	
+		},
+		onSelect: function(){
+			var date_picked = $(this).datepicker('getDate');
+			if($('#to').datepicker('getDate') == null){
+				console.log(date_picked);	
+				$("#to").datepicker("setDate", new Date(date_picked));
+				//$("#date2").datepicker("setDate", "+15d");				
+			}
+		}
+	});
+
+	$("#to").datepicker({
+		dateFormat : "dd/mm/yy",
+		defaultDate : "-1m",
+		changeMonth : true,
+		numberOfMonths : 3,
+		onClose : function(selectedDate) {
+			$("#from").datepicker("option", "maxDate", selectedDate);
+		}
+	});
+
+}); 

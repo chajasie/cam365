@@ -1,0 +1,18 @@
+body {
+    padding-top: 30px;
+}
+
+.row + .row{
+    padding-top:20px;
+}
+.label-important{
+    font-size:28px;
+    padding: 10px 12px;
+}
+#minute, #hour, #day, #month, #year{
+    padding: 12px;
+    margin-bottom: 0px;
+}
+.noPadding{
+    padding-top:0px!important;   
+}

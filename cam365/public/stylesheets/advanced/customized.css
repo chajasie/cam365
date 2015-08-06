@@ -1,0 +1,129 @@
+body {
+	background-color:#F1F1F1;
+}
+#apDiv1 {
+	position: absolute;
+	width: 200px;
+	height: 91px;
+	z-index: 1;
+	left: 62px;
+	top: 22px;
+}
+#apDiv2 {
+	position: absolute;
+	width: 200px;
+	height: 29px;
+	z-index: 7;
+	left: 55px;
+	top: 91px;
+}
+#apDiv3 {
+	position: absolute;
+	width: 200px;
+	height: 31px;
+	z-index: 3;
+	left: 571px;
+	top: 67px;
+}
+#apDiv4 {
+	position: absolute;
+	width: 1280px;
+	height: 720px;
+	z-index: 4;
+	left: 60px;
+	top: 120px;
+	background-color: #FFFFFF;
+}
+#apDiv5 {
+	position: absolute;
+	width: 76px;
+	height: 34px;
+	z-index: 5;
+	left: 491px;
+	top: 69px;
+}
+#apDiv6 {
+	position: absolute;
+	width: 200px;
+	height: 32px;
+	z-index: 6;
+	left: 60px;
+	top: 842px;
+}
+#apDiv7 {
+	position: absolute;
+	width: 200px;
+	height: 621px;
+	z-index: 2;
+	left: 1350px;
+	top: 120px;
+}
+#apDiv8 {
+	position: absolute;
+	width: 105px;
+	height: 34px;
+	z-index: 8;
+	left: 1569px;
+	top: 516px;
+}
+#apDiv9 {
+	position: absolute;
+	width: 140px;
+	height: 50px;
+	z-index: 9;
+	left: 1342px;
+	top: 791px;
+}
+#apDiv10 {
+	position: absolute;
+	width: 140px;
+	height: 50px;
+	z-index: 10;
+	left: 419px;
+	top: 680px;
+}
+#apDiv11 {
+	position: absolute;
+	width: 50px;
+	height: 35px;
+	z-index: 11;
+	left: 1291px;
+	top: 841px;
+}
+
+.content{
+    height: 610px;
+	max-height:610px;
+	overflow:hidden;
+}
+.hidden{
+    display: none;
+}
+.fancybox-overlay, .fancybox-overlay-fixed{
+    display: none !important;
+}
+
+.fancybox-opened .fancybox-skin {
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+}
+.fancybox-skin {
+    background: none ;
+    border-radius: 0px;
+    color: #ffffff;
+    position: relative;
+    text-shadow: none;
+}
+
+.fancybox-opened, .fancybox-wrap, .fancybox-desktop, .fancybox-type-image{
+    left: 10px !important;
+    top: 92px !important;
+    z-index: inherit;
+}
+
+.page{
+	margin-top:10px;	
+}
+.mediaplayer{
+	margin-top:10px;
+	text-align:left;	
+}

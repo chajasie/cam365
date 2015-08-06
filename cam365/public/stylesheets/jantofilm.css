@@ -1,0 +1,82 @@
+@font-face{
+  font-family: SourceSansPro;
+  src: url(/fonts/Source_Sans/SourceSansPro-Regular.otf)  format("opentype");
+}
+body{
+  margin:0px;
+  width: 100%;
+  height: 100%;
+
+  font-family: SourceSansPro;
+  font-size: 18px;
+}
+.navigation{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.navigation > a{
+  padding-left: 10px;
+  color: #444444;
+}
+.page{
+  width: 1500px;
+  height: 100%;
+  margin: 0 auto;
+}
+.left, .middle, .right{
+  float:left;
+}
+.middle{
+  width: 971px;
+}
+.header{
+  position: relative;
+  z-index: 0;
+}
+.view{
+  width: 858px;
+  height: 440px;
+  position: relative;
+  z-index: 200;
+  background-image: url(/img/jantofilm/muster.png);
+  padding: 30px;
+}
+.camPic{
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+.title{
+  height: 60px;
+  width: 938px;
+  text-align: center;
+}
+.left{
+    width: 247px;
+    height: 100%;
+    position: relative;
+}
+.left img{
+  position: absolute;
+  top:176px;
+}
+.right{
+    width: 276px;
+    height: 100%;
+    position: relative;
+}
+.right img{
+  position: absolute;
+  top:195px;
+  left: -78px;
+  z-index: 100;
+}
+.footer > *{
+  float:left;
+}
+.footerText{
+  padding: 10px;
+  padding-left: 50px;
+
+}
